@@ -13,6 +13,14 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  double _numberFrom= 0.0;
+
+  @override
+  void initState() {
+    _numberFrom = 0;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,10 +29,23 @@ class MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('Converter')
         ),
-            body: const Center(
-              child: Text('Convert different units'),
-            )
-      ),
+        body: Center(
+          child: Column(
+            children: [
+              TextField(
+                onChanged: (text) {
+                  var rv = double.tryParse(text);
+                  if (rv != null) {
+                    setState(() {
+                      _numberFrom = rv;
+                    });
+                  }
+                  },
+              ),Text((_numberFrom == null) ? '' : _numberFrom.toString())
+            ],
+    ),
+    ),
+    )
     );
   }
 }

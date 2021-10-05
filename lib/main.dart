@@ -25,6 +25,9 @@ class MyAppState extends State<MyApp> {
     'ounces'
   ];
   String _startMeasure = '';
+  final TextStyle inputStyle =
+      TextStyle(fontSize: 20, color: Colors.blueGrey[200]);
+  final TextStyle typography = TextStyle(fontSize: 24, color: Colors.grey[700]);
 
   @override
   void initState() {
@@ -39,10 +42,34 @@ class MyAppState extends State<MyApp> {
         title: 'Converter',
         home: Scaffold(
           appBar: AppBar(title: Text('Converter')),
-          body: Center(
+          body: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
+                Spacer(),
+                Text(
+                  'Value',
+                  style: typography,
+                ),
+                Spacer(),
+                TextField(
+                  style: inputStyle,
+                  onChanged: (text) {
+                    var rv = double.tryParse(text);
+                    if (rv != null) {
+                      setState(() {
+                        _numberFrom = rv;
+                      });
+                    }
+                  },
+                ),
+                Spacer(),
+                Text(
+                  'From',
+                  style: typography,
+                ),
                 DropdownButton(
+                    isExpanded: true,
                     items: _measures.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -55,16 +82,6 @@ class MyAppState extends State<MyApp> {
                       });
                     },
                     value: _startMeasure),
-                TextField(
-                  onChanged: (text) {
-                    var rv = double.tryParse(text);
-                    if (rv != null) {
-                      setState(() {
-                        _numberFrom = rv;
-                      });
-                    }
-                  },
-                ),
                 Text((_numberFrom == null) ? '' : _numberFrom.toString())
               ],
             ),

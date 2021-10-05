@@ -40,6 +40,15 @@ class MyAppState extends State<MyApp> {
           body: Center(
             child: Column(
               children: [
+                DropdownButton(
+                  items: _measures.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (_) {},
+                ),
                 TextField(
                   onChanged: (text) {
                     var rv = double.tryParse(text);

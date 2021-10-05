@@ -24,10 +24,12 @@ class MyAppState extends State<MyApp> {
     'pounds (lbs)',
     'ounces'
   ];
+  String _startMeasure = '';
 
   @override
   void initState() {
-    _numberFrom = 0;
+    _numberFrom = 0.0;
+    _startMeasure = '';
     super.initState();
   }
 
@@ -41,14 +43,18 @@ class MyAppState extends State<MyApp> {
             child: Column(
               children: [
                 DropdownButton(
-                  items: _measures.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (_) {},
-                ),
+                    items: _measures.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _startMeasure = value.toString();
+                      });
+                    },
+                    value: _startMeasure),
                 TextField(
                   onChanged: (text) {
                     var rv = double.tryParse(text);

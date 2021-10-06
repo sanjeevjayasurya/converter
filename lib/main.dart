@@ -25,16 +25,24 @@ class MyAppState extends State<MyApp> {
     'ounces'
   ];
   String _startMeasure = '';
+  String _convertMeasure = '';
   final TextStyle inputStyle =
-      TextStyle(fontSize: 20, color: Colors.blueGrey[200]);
+      TextStyle(fontSize: 20, color: Colors.black);
   final TextStyle typography = TextStyle(fontSize: 24, color: Colors.grey[700]);
 
   @override
   void initState() {
     _numberFrom = 0.0;
-    _startMeasure = '';
+    _startMeasure = 'meters';
+    _convertMeasure = 'feet';
     super.initState();
   }
+
+  // bool operator ==(dynamic other) =>
+  //     other != null && other is TimeSelection && this.hour == other.hour;
+  //
+  // @override
+  // int get hashCode => super.hashCode;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +59,6 @@ class MyAppState extends State<MyApp> {
                   'Value',
                   style: typography,
                 ),
-                Spacer(),
                 TextField(
                   style: inputStyle,
                   onChanged: (text) {
@@ -69,20 +76,50 @@ class MyAppState extends State<MyApp> {
                   style: typography,
                 ),
                 DropdownButton(
-                    isExpanded: true,
-                    items: _measures.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _startMeasure = value.toString();
-                      });
-                    },
-                    value: _startMeasure),
-                Text((_numberFrom == null) ? '' : _numberFrom.toString())
+                  isExpanded: true,
+                  value: _startMeasure.isNotEmpty ? _startMeasure : null,
+                  items: _measures.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value, style: inputStyle),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _startMeasure = value.toString();
+                    });
+                  },
+                ),
+                Spacer(),
+                Text(
+                  'To',
+                  style: typography,
+                ),
+                DropdownButton(
+                  isExpanded: true,
+                  value: _convertMeasure.isNotEmpty ? _convertMeasure : null,
+                  style: inputStyle,
+                  items: _measures.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: inputStyle,
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _convertMeasure = value.toString();
+                    });
+                  },
+                ),
+                Spacer(),
+                Text(
+                  _numberFrom.toString(),
+                  style: typography,
+                ),
+                Spacer()
               ],
             ),
           ),
